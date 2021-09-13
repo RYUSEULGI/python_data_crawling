@@ -1,6 +1,7 @@
 from os import read
 import urllib.request
 import json
+import numpy as np
 
 
 def getKeywordList(data):
@@ -36,8 +37,6 @@ def getNewsList(data):
 
         NATELISTAPI = f"https://news.nate.com/today/articleList?keyword_dtm={sliceDtm}%20{sliceDtm2}&keyword_sq={keyword_sq}"
 
-        print(NATELISTAPI)
-
         request = urllib.request.Request(NATELISTAPI)
         response = urllib.request.urlopen(request)
 
@@ -59,15 +58,18 @@ def getNewsList(data):
 
 
 def getTxtFile(fname, data):
-    f = open(fname + ".txt", 'w')
 
-    for i in range(1, 11):
-        data = "%d번째 줄입니다.\n" % i
-        f.write(data)
-    f.close()
+    with open(fname + '.txt', 'w', newline='', encoding='utf8') as f:
+        length = len(data)
+        w = csv.writer(f)
+        w.writerow(data[0][0].keys())
+        print(data[0][0].keys())
+
+        for i in range(length):
+            w.writerow(data[i][0].values())
 
 
 data = []
 getKeywordList(data)
 getNewsList(data)
-# getTxtFile("testTxtFile", data)
+getTxtFile("nate_today_news", data)

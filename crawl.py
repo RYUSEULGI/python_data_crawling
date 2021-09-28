@@ -4,7 +4,24 @@ import json
 import csv
 from datetime import timedelta
 from datetime import datetime
+import smtplib
+from email.message import EmailMessage
 
+def sendMail(text):
+    EMAIL_ADDRESS = 'mailAddress'
+    EMAIL_PASSWORD = 'password'
+    SEND_TO_EMAIL = 'mailAddress'
+
+    msg = EmailMessage()
+
+    msg['Subject'] = 'subject'
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = SEND_TO_EMAIL
+    msg.set_content(text)
+
+    with smtplib.SMTP_SSL('smtp.xxxx.com', 465) as smtp:
+        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+        smtp.send_message(msg)
 
 def getKeywordList(data):
 
